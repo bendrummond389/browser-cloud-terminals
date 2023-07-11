@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -8,4 +5,58 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+model User {
+  id             Int      @id @default(autoincrement())
+  given_name     String
+  family_name    String
+  nickname       String
+  name           String
+  picture        String
+  locale         String
+  updated_at     DateTime @default(now()) @updatedAt
+  email          String   @unique
+  email_verified Boolean
+  sub            String
+  sid            String
+  groups         Group[]
+}
+
+model Pod {
+  id         Int    @id @default(autoincrement())
+  name       String
+  info       String
+  namespace  String
+  deployment String
+  group      Group?
+}
+
+model Service {
+  id        Int    @id @default(autoincrement())
+  name      String
+  info      String
+  namespace String
+  group      Group?
+}
+
+model Ingress {
+  id        Int    @id @default(autoincrement())
+  name      String
+  info      String
+  namespace String
+  path      String
+  group      Group?
+}
+
+model Group {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  pod       Pod?     @relation(fields: [podId], references: [id])
+  podId     Int?     @unique
+  service   Service? @relation(fields: [serviceId], references: [id])
+  serviceId Int?     @unique
+  ingress   Ingress? @relation(fields: [ingressId], references: [id])
+  ingressId Int?     @unique
 }
