@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import 'xterm/css/xterm.css';
 import { io } from "socket.io-client";
 import debug from 'debug';
+
+debug.enable('socket.io-client:socket');
 const log = debug('socket.io-client:url');
 
 interface WebTerminalProps {
@@ -28,7 +30,8 @@ const WebTerminal: React.FC<WebTerminalProps> = ({ ingressPath, onClose }) => {
 
       const appUrl = `ws://20.121.178.15`;
       console.log(appUrl)
-      socket.current = io(appUrl, { transports: ['websocket', 'polling'] });
+      socket.current = io(appUrl, {  path: '/socket.io', transports: ['websocket'] });
+      console.log(socket.current)
       socket.current.on('error', (error: any) => {
         console.log('Error', error);
       });
