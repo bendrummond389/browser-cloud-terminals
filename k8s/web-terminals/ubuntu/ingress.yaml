@@ -1,0 +1,27 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ubuntu-ingress
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    # nginx.ingress.kubernetes.io/rewrite-target: /$1
+    nginx.ingress.kubernetes.io/websocket: "true"
+    nginx.org/websocket-services: "gateway-cluster-ip-service"
+spec:
+  rules:
+  - http:
+      paths:
+      - pathType: Prefix
+        path: "/ubuntu"
+        backend:
+          service:
+            name: ubuntu-service
+            port:
+              number: 80
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: ubuntu-service
+            port:
+              number: 80

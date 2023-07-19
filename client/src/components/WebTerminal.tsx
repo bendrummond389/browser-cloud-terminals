@@ -1,10 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import 'xterm/css/xterm.css';
-import { io } from "socket.io-client";
-import debug from 'debug';
-
-debug.enable('socket.io-client:socket');
-const log = debug('socket.io-client:url');
 
 interface WebTerminalProps {
   ingressPath?: string;
@@ -14,55 +9,59 @@ interface WebTerminalProps {
 const WebTerminal: React.FC<WebTerminalProps> = ({ ingressPath, onClose }) => {
   const terminalRef = useRef<HTMLDivElement>(null);
   const [terminal, setTerminal] = useState<any>(null);
-  const socket = useRef<any>(null);
+  const socket = useRef<WebSocket | null>(null);
 
   useEffect(() => {
-    const initialiseTerminal = async () => {
-      const { Terminal } = await import('xterm');
-      const { FitAddon } = await import('xterm-addon-fit');
+    if (typeof window !== "undefined") {
+      const initialiseTerminal = async () => {
+        const { Terminal } = await import('xterm');
+        const { FitAddon } = await import('xterm-addon-fit');
 
-      const term = new Terminal();
-      const fitAddon = new FitAddon();
-      term.loadAddon(fitAddon);
+        const term = new Terminal();
+        const fitAddon = new FitAddon();
+        term.loadAddon(fitAddon);
 
-      term.open(terminalRef.current!);
-      fitAddon.fit();
+        term.open(terminalRef.current!);
+        fitAddon.fit();
+        const appUrl = `ws://20.121.178.15/${ingressPath}/`;
+        socket.current = new WebSocket(appUrl);
 
-      const appUrl = `ws://20.121.178.15`;
-      console.log(appUrl)
-      socket.current = io(appUrl, {  path: '/socket.io', transports: ['websocket'] });
-      console.log(socket.current)
-      socket.current.on('error', (error: any) => {
-        console.log('Error', error);
-      });
-      socket.current.on('connect', () => {
-        console.log('Connected to socket.io server');
-      });
+        socket.current.onopen = () => {
+          console.log('Connected to WebSocket server');
+          console.log(socket)
+        };
 
-      socket.current.on('output', (data: any) => {
-        term.write(data);
-      });
+        socket.current.onerror = (error) => {
+          console.log('Error', error);
+        };
 
-      term.onData(data => {
-        socket.current.emit('input', data);
-      });
+        socket.current.onmessage = (event) => {
+          term.write(event.data);
+        };
 
-      socket.current.on('disconnect', () => {
-        console.log('Disconnected from socket.io server');
-      });
+        socket.current.onclose = () => {
+          console.log('Disconnected from WebSocket server');
+        };
 
-      setTerminal(term);
-    };
+        term.onData(data => {
+          if (socket.current) {
+            socket.current.send(data);
+          }
+        });
 
-    if (terminalRef.current) {
+        setTerminal(term);
+      };
+
       initialiseTerminal();
-    }
 
-    return () => {
-      terminal?.dispose();
-      socket.current?.disconnect();
-      // onClose();
-    };
+      return () => {
+        terminal?.dispose();
+        if (socket.current) {
+          socket.current.close();
+        }
+        // onClose();
+      };
+    }
   }, [ingressPath, onClose]);
 
   return <div ref={terminalRef} />;

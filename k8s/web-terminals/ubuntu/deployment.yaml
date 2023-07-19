@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ubuntu-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ubuntu-app
+  template:
+    metadata:
+      labels:
+        app: ubuntu-app
+    spec:
+      containers:
+      - name: my-container
+        image: bendrummond389/ubuntu-ws:latest
+        ports:
+        - containerPort: 8080

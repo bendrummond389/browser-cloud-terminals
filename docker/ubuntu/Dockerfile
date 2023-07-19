@@ -6,7 +6,6 @@ RUN apt-get install -y curl build-essential
 # Install Node.js and npm
 RUN curl -fsSL https://deb.nodesource.com/setup_14.x | bash -
 RUN apt-get install -y nodejs
-RUN apt-get install -y npm
 
 # Verify Node.js and npm were installed successfully
 RUN node --version
@@ -20,11 +19,11 @@ RUN npm install
 
 COPY . .
 
-RUN groupadd -r nodejs && useradd -r -g nodejs -G audio,video nodejs \
-    && mkdir -p /home/nodejs && chown -R nodejs:nodejs /home/nodejs \
-    && chown -R nodejs:nodejs /usr/src/app
+RUN groupadd -r ubuntu && useradd -r -g ubuntu -G audio,video ubuntu \
+    && mkdir -p /home/ubuntu && chown -R ubuntu:ubuntu /home/ubuntu \
+    && chown -R ubuntu:ubuntu /usr/src/app
 
-USER nodejs
+USER ubuntu
 
 EXPOSE 8080
 

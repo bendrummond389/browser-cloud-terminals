@@ -20,11 +20,11 @@ RUN npm install
 
 COPY . .
 
-RUN groupadd -r nodejs && useradd -r -g nodejs -G audio,video nodejs \
-    && mkdir -p /home/nodejs && chown -R nodejs:nodejs /home/nodejs \
-    && chown -R nodejs:nodejs /usr/src/app
+RUN groupadd -r debian && useradd -r -g debian -G audio,video debian \
+    && mkdir -p /home/debian && chown -R debian:debian /home/debian \
+    && chown -R debian:debian /usr/src/app
 
-USER nodejs
+USER debian
 
 EXPOSE 8080
 

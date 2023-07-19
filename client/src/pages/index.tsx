@@ -3,7 +3,7 @@ import React from 'react';
 
 export default function Index() {
   return <>
-  <WebTerminal />
-  hello
+  <WebTerminal ingressPath='ubuntu'/>
+  <WebTerminal ingressPath='debian' />
   </>;
 }

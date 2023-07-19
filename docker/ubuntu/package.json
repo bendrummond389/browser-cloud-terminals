@@ -1,5 +1,5 @@
 {
-  "name": "debian-webserver",
+  "name": "ubuntu-webserver",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",

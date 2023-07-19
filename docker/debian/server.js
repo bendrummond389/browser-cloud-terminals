@@ -1,39 +1,11 @@
-var app = require('express')();
-var server = require('http').Server(app);
+const express = require('express');
+const { Server } = require('ws');
+const http = require('http');
+const pty = require('node-pty');
 
-var io = require('socket.io')(server, {
-  cors: {
-    origin: "*",  // Allow all origins
-    methods: ["GET", "POST"]
-  }
-});
-var pty = require('node-pty');
-
-// Define socket events
-io.on('connection', function(socket){
-  var shell = pty.spawn('bash', [], {
-    name: 'xterm-color',
-    cols: 80,
-    rows: 30
-  });
-
-  socket.on('input', function(data){
-    shell.write(data);
-  });
-
-  shell.on('data', function(data){
-    socket.emit('output', data);
-  });
-
-  socket.on('disconnect', function() {
-    shell.kill();
-  });
-});
-
-// Define routes
-// app.get('/', function (req, res) {
-//   res.send('Hello World!')
-// });
+const app = express();
+const server = http.createServer(app);
+const wss = new Server({ server });
 
 app.get('/', function (req, res) {
   res.send("hello from the root")
@@ -43,5 +15,24 @@ app.get('/debian', function (req, res) {
   res.send("hello from debian")
 });
 
-// Start the server
+wss.on('connection', function (ws) {
+  let shell = pty.spawn('bash', [], {
+    name: 'xterm-color',
+    cols: 80,
+    rows: 30
+  });
+
+  shell.on('data', function (data) {
+    ws.send(data);
+  });
+
+  ws.on('message', function (msg) {
+    shell.write(msg);
+  });
+
+  ws.on('close', function () {
+    shell.kill();
+  });
+});
+
 server.listen(8080);

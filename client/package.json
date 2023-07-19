@@ -10,6 +10,10 @@
     "db:start": "docker run --name webterm-db -p 5432:5432 -d webterminals-postgres-local"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.14.0",
+    "@mui/material": "^5.14.0",
     "@prisma/client": "^4.16.2",
     "@types/node": "20.4.1",
     "@types/react": "18.2.14",
