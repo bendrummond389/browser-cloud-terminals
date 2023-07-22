@@ -23,7 +23,7 @@ const WebTerminal: React.FC<WebTerminalProps> = ({ ingressPath, onClose }) => {
 
         term.open(terminalRef.current!);
         fitAddon.fit();
-        const appUrl = `ws://20.121.178.15/${ingressPath}/`;
+        const appUrl = `ws://20.121.178.15${ingressPath}`;
         socket.current = new WebSocket(appUrl);
 
         socket.current.onopen = () => {

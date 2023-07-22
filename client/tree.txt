@@ -8,6 +8,10 @@
 │   ├── migrations
 │   │   ├── 20230711054720_init
 │   │   │   └── migration.sql
+│   │   ├── 20230720010302_add_instances
+│   │   │   └── migration.sql
+│   │   ├── 20230720010520_bleh
+│   │   │   └── migration.sql
 │   │   └── migration_lock.toml
 │   └── schema.prisma
 ├── public
@@ -15,19 +19,26 @@
 │   └── vercel.svg
 ├── src
 │   ├── components
+│   │   ├── DashboardDrawer.tsx
+│   │   ├── DashboardPage.tsx
+│   │   ├── EnviromentDisplayCard.tsx
+│   │   ├── Navbar.tsx
 │   │   └── WebTerminal.tsx
 │   ├── contexts
 │   │   ├── Root.Context.tsx
 │   │   └── User.Context.tsx
-│   └── pages
-│       ├── _app.tsx
-│       ├── api
-│       │   └── auth
-│       │       └── [...auth0].ts
-│       ├── dashboard.tsx
-│       ├── index.tsx
-│       └── login.tsx
+│   ├── pages
+│   │   ├── _app.tsx
+│   │   ├── api
+│   │   │   ├── auth
+│   │   │   │   └── [...auth0].ts
+│   │   │   └── kubernetes.ts
+│   │   ├── dashboard.tsx
+│   │   ├── index.tsx
+│   │   └── login.tsx
+│   └── themes
+│       └── theme.js
 ├── tree.txt
 └── tsconfig.json
 
-11 directories, 20 files
+14 directories, 28 files

@@ -11,17 +11,11 @@ spec:
   rules:
   - http:
       paths:
-      - pathType: Prefix
+      - pathType: Exact
         path: "/ubuntu"
         backend:
           service:
             name: ubuntu-service
             port:
               number: 80
-      - pathType: Prefix
-        path: "/"
-        backend:
-          service:
-            name: ubuntu-service
-            port:
-              number: 80
+

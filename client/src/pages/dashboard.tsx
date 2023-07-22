@@ -1,24 +1,19 @@
 import * as React from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
-import Navbar from '@/components/Navbar'
-import SideDrawer from '@/components/SideDrawer';
+import { DashboardDrawer } from '@/components/DashboardDrawer'
+import { DashboardPage } from '@/components/DashboardPage'
 
-export default function PersistentDrawerLeft() {
+export default function Dashboard() {
   const [open, setOpen] = React.useState(false);
 
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
-
+  const toggleDrawer = () => {
+    setOpen(!open)
+  }
   return (
     <div>
       <CssBaseline />
-      <Navbar open={open} handleDrawerOpen={handleDrawerOpen} />
-      <SideDrawer open={open} handleDrawerClose={handleDrawerClose} />
+      <DashboardDrawer open={open} />
+      <DashboardPage open={open} toggleDrawer={toggleDrawer}/>
     </div>
   );
 }

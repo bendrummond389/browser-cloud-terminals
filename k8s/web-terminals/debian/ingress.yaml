@@ -11,14 +11,14 @@ spec:
   rules:
   - http:
       paths:
-      - pathType: Prefix
-        path: "/debian"
+      - pathType: Exact
+        path: "/debian/1234/abcd"
         backend:
           service:
             name: my-service
             port:
               number: 80
-      - pathType: Prefix
+      - pathType: Exact
         path: "/"
         backend:
           service:

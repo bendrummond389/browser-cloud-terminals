@@ -1,19 +1,41 @@
-import { withPageAuthRequired } from '@auth0/nextjs-auth0/client';
-import React, { createContext, useState } from 'react';
-import { User as UserType } from '@prisma/client';
+import { User } from '@prisma/client';
+import { createContext, useContext, useEffect, useState } from 'react';
+
+const UserContext = createContext<UserContextType | null>(null);
 
 type UserContextType = {
-  user: UserType | null;
-  setUser: (user: UserType | null) => void;
+  user: User | null;
+  loading: boolean;
 };
 
-export const UserContext = createContext<UserContextType>({
-  user: null,
-  setUser: () => {}
-});
+export function useUserContext() {
+  const context = useContext(UserContext);
+  if (!context) {
+    throw new Error('useUserContext must be used within a UserContextProvider');
+  }
+  return context;
+}
 
-export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<UserType | null>(null);
+interface UserContextProviderProps {
+  children: React.ReactNode;
+}
 
-  return <UserContext.Provider value={{ user, setUser }}>{children}</UserContext.Provider>;
-};
+export function UserProvider({ children }: UserContextProviderProps) {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch('/api/users/user')
+      .then(response => response.json())
+      .then(data => {
+        setUser(data);
+        setLoading(false);
+      })
+      .catch(error => {
+        console.error(error);
+        setLoading(false);
+      });
+  }, []);
+
+  return <UserContext.Provider value={{ user, loading }}>{children}</UserContext.Provider>;
+}

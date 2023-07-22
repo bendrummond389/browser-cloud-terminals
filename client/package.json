@@ -10,8 +10,11 @@
     "db:start": "docker run --name webterm-db -p 5432:5432 -d webterminals-postgres-local"
   },
   "dependencies": {
+    "@azure/arm-containerservice": "^19.0.0",
+    "@azure/identity": "^3.2.3",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
+    "@kubernetes/client-node": "^0.18.1",
     "@mui/icons-material": "^5.14.0",
     "@mui/material": "^5.14.0",
     "@prisma/client": "^4.16.2",
@@ -24,6 +27,7 @@
     "react-dom": "18.2.0",
     "socket.io": "^4.7.1",
     "socket.io-client": "^4.7.1",
+    "swr": "^2.2.0",
     "typescript": "5.1.6",
     "xterm": "^5.2.1",
     "xterm-addon-fit": "^0.7.0"
