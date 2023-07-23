@@ -12,7 +12,7 @@ import { useWebTerminalContext } from '@/contexts/WebTerminal.Context';
 const InstanceCardContainer = () => {
   const { user, loading } = useUserContext();
   const [instances, setInstances] = React.useState<Instance[]>([]);
-  const [deletingInstance, setDeletingInstance] = React.useState<boolean>(false);
+  const [deletingInstance, setDeletingInstance] = React.useState<number | null>(null);
   const theme = useTheme();
   const { submitSuccess, setSubmitSuccess } = useCreateInstanceModalContext();
   const { ingressPath, setIngressPath, terminalOpen, setTerminalOpen } = useWebTerminalContext();
@@ -23,13 +23,15 @@ const InstanceCardContainer = () => {
   };
 
   const deleteInstance = async (instanceToDelete: Instance) => {
-    setDeletingInstance(true);
+    setDeletingInstance(instanceToDelete.id);
 
     // switch ingresspath to a different instance
     if (instanceToDelete.ingressPath == ingressPath) {
       const nextInstance = instances.find((instance: Instance) => instance.id != instanceToDelete.id);
       if (nextInstance != null) {
         setIngressPath(nextInstance.ingressPath);
+      } else {
+          setTerminalOpen(false)
       }
     }
 
@@ -40,9 +42,14 @@ const InstanceCardContainer = () => {
           'Content-Type': 'application/json'
         }
       });
-      setDeletingInstance(false);
+  
+      if (response.ok) {
+        setInstances(instances.filter((instance: Instance) => instance.id !== instanceToDelete.id));
+      }
     } catch (e) {
       console.error(e);
+    } finally {
+      setDeletingInstance(null);
     }
   };
 
@@ -82,7 +89,8 @@ const InstanceCardContainer = () => {
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'center',
-              alignItems: 'center'
+              alignItems: 'center',
+              opacity: deletingInstance === instance.id ? 0.5 : 1,
             }}>
             <CardMedia
               component="img"
@@ -95,8 +103,8 @@ const InstanceCardContainer = () => {
 
             <CardContent>
               <p>{instance.name}</p>
-              <Button onClick={() => deleteInstance(instance)}> Delete </Button>
-              <Button onClick={() => handleSetIngressPath(instance.ingressPath)}> Open </Button>
+              <Button onClick={() => deleteInstance(instance)} disabled={deletingInstance === instance.id}> Delete </Button>
+              <Button onClick={() => handleSetIngressPath(instance.ingressPath)} disabled={deletingInstance === instance.id}> Open </Button>
             </CardContent>
           </Card>
         </Grid>
