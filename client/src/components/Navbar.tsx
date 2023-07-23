@@ -55,15 +55,15 @@ export default function Navbar({ toggleDrawer, open }: NavbarProps) {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-  
+
   const theme = useTheme();
   const router = useRouter();
 
-  const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+  const settings = ['Dashboard', 'Logout'];
 
   const settingsUrls: { [key: string]: string } = {
     Dashboard: '/dashboard',
-    Logout: '/logout',
+    Logout: '/logout'
   };
 
   const handleSettingClick = (setting: string) => {
@@ -81,7 +81,7 @@ export default function Navbar({ toggleDrawer, open }: NavbarProps) {
           <IconButton color="inherit" aria-label="open drawer" onClick={toggleDrawer} edge="start">
             {!open ? <MenuIcon /> : <ArrowLeftIcon />}
           </IconButton>
-          <Typography variant="h4" sx={{marginLeft: 5}}>
+          <Typography variant="h4" sx={{ marginLeft: 5 }}>
             Cloud Terminals
           </Typography>
         </Box>
@@ -105,8 +105,7 @@ export default function Navbar({ toggleDrawer, open }: NavbarProps) {
               horizontal: 'right'
             }}
             open={Boolean(anchorElUser)}
-            onClose={handleCloseUserMenu}
-          >
+            onClose={handleCloseUserMenu}>
             {settings.map(setting => (
               <MenuItem key={setting} onClick={() => handleSettingClick(setting)}>
                 <Typography textAlign="center">{setting}</Typography>
