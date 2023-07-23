@@ -1,17 +1,20 @@
 import { Box, IconButton, Drawer, List, ListItemButton, ListItem, ListItemIcon, ListItemText } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { useTheme } from '@mui/material/styles';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import * as React from 'react';
+import { useCreateInstanceModalContext } from '@/contexts/CreateInstanceModal.Context';
 
 interface DashboardDrawerProps {
   open: boolean;
 }
 
 export const DashboardDrawer: React.FC<DashboardDrawerProps> = ({ open }) => {
+  const { setCreateInstanceModalOpen} = useCreateInstanceModalContext()
   const theme = useTheme();
+
+  const handleOpenModal = () => {
+    setCreateInstanceModalOpen(true)
+  }
   return (
     <Box sx={{ width: open ? 240 : 0, flexGrow: 1, p: 3 }}>
       <Drawer
@@ -28,7 +31,7 @@ export const DashboardDrawer: React.FC<DashboardDrawerProps> = ({ open }) => {
         }}>
         <List>
           <ListItem>
-            <ListItemButton>
+            <ListItemButton onClick={handleOpenModal}>
               <ListItemIcon>
                 <AddCircleIcon />
               </ListItemIcon>

@@ -17,8 +17,8 @@ import { useUserContext } from '@/contexts/User.Context';
 import { useRouter } from 'next/router';
 
 interface NavbarProps {
-  toggleDrawer: () => void;
-  open: boolean;
+  toggleDrawer?: () => void;
+  open?: boolean;
 }
 
 const drawerWidth = 360;
@@ -62,8 +62,6 @@ export default function Navbar({ toggleDrawer, open }: NavbarProps) {
   const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
   const settingsUrls: { [key: string]: string } = {
-    Profile: '/profile',
-    Account: '/account',
     Dashboard: '/dashboard',
     Logout: '/logout',
   };
@@ -83,8 +81,8 @@ export default function Navbar({ toggleDrawer, open }: NavbarProps) {
           <IconButton color="inherit" aria-label="open drawer" onClick={toggleDrawer} edge="start">
             {!open ? <MenuIcon /> : <ArrowLeftIcon />}
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            Persistent drawer
+          <Typography variant="h4" sx={{marginLeft: 5}}>
+            Cloud Terminals
           </Typography>
         </Box>
         <Box sx={{ flexGrow: 0 }}>

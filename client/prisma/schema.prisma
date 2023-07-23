@@ -28,9 +28,7 @@ model Instance {
   userId      Int
   user        User   @relation(fields: [userId], references: [id])
   namespace   String
-  podName     String
-  serviceName String
-  IngressName String
+  name        String
   ingressPath String
   distro      String
 }

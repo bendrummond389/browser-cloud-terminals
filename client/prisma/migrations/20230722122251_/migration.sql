@@ -21,9 +21,7 @@ CREATE TABLE "Instance" (
     "id" SERIAL NOT NULL,
     "userId" INTEGER NOT NULL,
     "namespace" TEXT NOT NULL,
-    "podName" TEXT NOT NULL,
-    "serviceName" TEXT NOT NULL,
-    "IngressName" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
     "ingressPath" TEXT NOT NULL,
     "distro" TEXT NOT NULL,
 

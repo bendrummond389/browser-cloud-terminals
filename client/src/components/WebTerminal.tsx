@@ -1,5 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import 'xterm/css/xterm.css';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
+import { useWebTerminalContext } from '@/contexts/WebTerminal.Context';
+import { Grid } from '@mui/material';
 
 interface WebTerminalProps {
   ingressPath?: string;
@@ -8,12 +12,13 @@ interface WebTerminalProps {
 
 const WebTerminal: React.FC<WebTerminalProps> = ({ ingressPath, onClose }) => {
   const terminalRef = useRef<HTMLDivElement>(null);
-  const [terminal, setTerminal] = useState<any>(null);
+  const terminalInstance = useRef<any>(null);
   const socket = useRef<WebSocket | null>(null);
+  const {terminalOpen, setTerminalOpen} = useWebTerminalContext()
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const initialiseTerminal = async () => {
+      const initializeTerminal = async () => {
         const { Terminal } = await import('xterm');
         const { FitAddon } = await import('xterm-addon-fit');
 
@@ -28,7 +33,6 @@ const WebTerminal: React.FC<WebTerminalProps> = ({ ingressPath, onClose }) => {
 
         socket.current.onopen = () => {
           console.log('Connected to WebSocket server');
-          console.log(socket)
         };
 
         socket.current.onerror = (error) => {
@@ -49,22 +53,62 @@ const WebTerminal: React.FC<WebTerminalProps> = ({ ingressPath, onClose }) => {
           }
         });
 
-        setTerminal(term);
+        terminalInstance.current?.dispose();
+        terminalInstance.current = term;
       };
 
-      initialiseTerminal();
-
-      return () => {
-        terminal?.dispose();
+      const closeTerminal = () => {
         if (socket.current) {
           socket.current.close();
         }
-        // onClose();
+      };
+  
+      if (ingressPath) {
+        closeTerminal();
+        initializeTerminal();
+      }
+
+      return () => {
+        terminalInstance.current?.dispose();
+        closeTerminal();
       };
     }
   }, [ingressPath, onClose]);
 
-  return <div ref={terminalRef} />;
+  return (
+    <Grid 
+      container 
+      style={{
+        position: 'relative',
+        backgroundColor: '#000000',
+        height: '80%',
+        width: '90%',
+        padding: '10px',
+        color: '#FFFFFF',
+        overflowY: 'auto',
+        borderRadius: '10px',
+      }}
+      direction="column"
+      justifyContent="flex-start"
+      alignItems="stretch"
+    >
+      <IconButton 
+        style={{
+          color: '#FFFFFF',
+          position: 'absolute',
+          top: '10px',
+          right: '10px',
+          zIndex: 1000
+        }} 
+        onClick={() => setTerminalOpen(false)}
+      >
+        <CloseIcon />
+      </IconButton>
+      <Grid item style={{ flexGrow: 1 }}>
+        <div ref={terminalRef} style={{ height: '100%' }} />
+      </Grid>
+    </Grid>
+  );
 };
 
 export default WebTerminal;

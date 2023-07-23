@@ -10,6 +10,7 @@
     "db:start": "docker run --name webterm-db -p 5432:5432 -d webterminals-postgres-local"
   },
   "dependencies": {
+    "@auth0/nextjs-auth0": "^2.7.0",
     "@azure/arm-containerservice": "^19.0.0",
     "@azure/identity": "^3.2.3",
     "@emotion/react": "^11.11.1",
