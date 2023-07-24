@@ -1,6 +1,6 @@
 # Browser Cloud Terminals
 ## Description
-Browser Cloud Terminals is an innovative web application designed to provide users with remote shell access to a server directly from their browser. It stands as an ideal solution for system administrators, developers, and other tech professionals who need a convenient, real-time shell access to their cloud resources.
+Browser Cloud Terminals is a web application designed to provide users with remote shell access to a server directly from their browser. It stands as an ideal solution for system administrators, developers, and other tech professionals who need a convenient, real-time shell access to their cloud resources.
 
 ## Features
 Interactive bash shell accessible via any modern web browser
