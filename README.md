@@ -12,4 +12,4 @@ Designed for seamless integration with Kubernetes
 
 Demo (OFFLINE)
 
-[Video](https://www.youtube.com/watch?v=oJxlwvi-J4k&ab_channel=BenDrummond)
+[Video](https://youtu.be/DIr_peoYBLA)
