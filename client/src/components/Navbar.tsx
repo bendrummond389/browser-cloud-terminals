@@ -1,5 +1,4 @@
-import * as React from 'react';
-import { useTheme } from '@mui/material/styles';
+import React from 'react';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
@@ -46,7 +45,7 @@ const AppBar = styled(MuiAppBar, {
 
 export default function Navbar({ toggleDrawer, open }: NavbarProps) {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
-  const { user, loading } = useUserContext();
+  const { user } = useUserContext();
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
@@ -56,7 +55,6 @@ export default function Navbar({ toggleDrawer, open }: NavbarProps) {
     setAnchorElUser(null);
   };
 
-  const theme = useTheme();
   const router = useRouter();
 
   const settings = ['Dashboard', 'Logout'];

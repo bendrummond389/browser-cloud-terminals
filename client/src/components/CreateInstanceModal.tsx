@@ -2,7 +2,7 @@ import { useCreateInstanceModalContext } from '@/contexts/CreateInstanceModal.Co
 import { useUserContext } from '@/contexts/User.Context';
 import { Box, Button, Modal, TextField, Typography } from '@mui/material';
 import { User } from '@prisma/client';
-import React, { useState } from 'react';
+import React from 'react';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -23,11 +23,11 @@ export interface CreateInstanceRequestBody {
   podImage: string;
 }
 
-export const CreateNewInstanceModal = () => {
+const CreateInstanceModal = () => {
   const { createInstanceModalOpen, setCreateInstanceModalOpen, submitSuccess, setSubmitSuccess } = useCreateInstanceModalContext();
-  const [selectedLinux, setSelectedLinux] = useState<string>('debian-ws'); 
-  const [instanceName, setInstanceName] = useState<string>(''); 
-  const [submitting, setSubmitting] = useState<boolean>(false)
+  const [selectedLinux, setSelectedLinux] = React.useState<string>('debian-ws'); 
+  const [instanceName, setInstanceName] = React.useState<string>(''); 
+  const [submitting, setSubmitting] = React.useState<boolean>(false)
 
   const {user} = useUserContext()
 
@@ -132,3 +132,6 @@ export const CreateNewInstanceModal = () => {
     </div>
   );
 };
+
+
+export default CreateInstanceModal

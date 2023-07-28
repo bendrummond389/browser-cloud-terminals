@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import 'xterm/css/xterm.css';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
@@ -11,13 +11,13 @@ interface WebTerminalProps {
 }
 
 const WebTerminal: React.FC<WebTerminalProps> = ({ ingressPath, onClose }) => {
-  const terminalRef = useRef<HTMLDivElement>(null);
-  const terminalInstance = useRef<any>(null);
-  const socket = useRef<WebSocket | null>(null);
-  const {terminalOpen, setTerminalOpen} = useWebTerminalContext()
+  const terminalRef = React.useRef<HTMLDivElement>(null);
+  const terminalInstance = React.useRef<any>(null);
+  const socket = React.useRef<WebSocket | null>(null);
+  const { setTerminalOpen } = useWebTerminalContext();
 
-  useEffect(() => {
-    if (typeof window !== "undefined") {
+  React.useEffect(() => {
+    if (typeof window !== 'undefined') {
       const initializeTerminal = async () => {
         const { Terminal } = await import('xterm');
         const { FitAddon } = await import('xterm-addon-fit');
@@ -35,11 +35,11 @@ const WebTerminal: React.FC<WebTerminalProps> = ({ ingressPath, onClose }) => {
           console.log('Connected to WebSocket server');
         };
 
-        socket.current.onerror = (error) => {
+        socket.current.onerror = error => {
           console.log('Error', error);
         };
 
-        socket.current.onmessage = (event) => {
+        socket.current.onmessage = event => {
           term.write(event.data);
         };
 
@@ -62,7 +62,7 @@ const WebTerminal: React.FC<WebTerminalProps> = ({ ingressPath, onClose }) => {
           socket.current.close();
         }
       };
-  
+
       if (ingressPath) {
         closeTerminal();
         initializeTerminal();
@@ -76,8 +76,8 @@ const WebTerminal: React.FC<WebTerminalProps> = ({ ingressPath, onClose }) => {
   }, [ingressPath, onClose]);
 
   return (
-    <Grid 
-      container 
+    <Grid
+      container
       style={{
         position: 'relative',
         backgroundColor: '#000000',
@@ -86,22 +86,20 @@ const WebTerminal: React.FC<WebTerminalProps> = ({ ingressPath, onClose }) => {
         padding: '10px',
         color: '#FFFFFF',
         overflowY: 'auto',
-        borderRadius: '10px',
+        borderRadius: '10px'
       }}
       direction="column"
       justifyContent="flex-start"
-      alignItems="stretch"
-    >
-      <IconButton 
+      alignItems="stretch">
+      <IconButton
         style={{
           color: '#FFFFFF',
           position: 'absolute',
           top: '10px',
           right: '10px',
           zIndex: 1000
-        }} 
-        onClick={() => setTerminalOpen(false)}
-      >
+        }}
+        onClick={() => setTerminalOpen(false)}>
         <CloseIcon />
       </IconButton>
       <Grid item style={{ flexGrow: 1 }}>

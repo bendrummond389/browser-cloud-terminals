@@ -1,14 +1,14 @@
-import { Box, IconButton, Drawer, List, ListItemButton, ListItem, ListItemIcon, ListItemText } from '@mui/material';
+import { Box,  Drawer, List, ListItemButton, ListItem, ListItemIcon, ListItemText } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import * as React from 'react';
 import { useCreateInstanceModalContext } from '@/contexts/CreateInstanceModal.Context';
+import React from 'react';
 
 interface DashboardDrawerProps {
   open: boolean;
 }
 
-export const DashboardDrawer: React.FC<DashboardDrawerProps> = ({ open }) => {
+const DashboardDrawer: React.FC<DashboardDrawerProps> = ({ open }) => {
   const { setCreateInstanceModalOpen} = useCreateInstanceModalContext()
   const theme = useTheme();
 
@@ -43,3 +43,5 @@ export const DashboardDrawer: React.FC<DashboardDrawerProps> = ({ open }) => {
     </Box>
   );
 };
+
+export default DashboardDrawer

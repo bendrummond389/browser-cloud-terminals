@@ -1,9 +1,8 @@
-import { Box, Button, Typography, Grid } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 import Navbar from './Navbar';
 import { useUserContext } from '@/contexts/User.Context';
-import { Instance, User } from '@prisma/client';
+import { User } from '@prisma/client';
 import InstanceCardContainer from './InstanceCardContainer';
-import { useState } from 'react';
 import React from 'react';
 import WebTerminal from './WebTerminal';
 import { useWebTerminalContext } from '@/contexts/WebTerminal.Context';
@@ -18,8 +17,7 @@ export interface CreateInstanceRequestBody {
   name: string;
   podImage: string;
 }
-
-export const DashboardPage: React.FC<DashboardPageProps> = ({ open, toggleDrawer }) => {
+const DashboardPage: React.FC<DashboardPageProps> = ({ open, toggleDrawer }) => {
   const { user, loading } = useUserContext();
   const { ingressPath, terminalOpen } = useWebTerminalContext();
 
@@ -50,3 +48,5 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({ open, toggleDrawer
     </Box>
   );
 };
+
+export default DashboardPage;

@@ -1,16 +1,16 @@
 import { NextPageContext } from 'next';
 
-const LoginPage = () => {
+const LogoutPage = () => {
   return <></>;
 };
 
 export async function getServerSideProps({ res }: NextPageContext) {
   if (res) {
-    res.writeHead(302, { Location: '/api/auth/login' });
+    res.writeHead(302, { Location: '/api/auth/logout' });
     res.end();
   }
 
   return { props: {} };
 }
 
-export default LoginPage;
+export default LogoutPage;

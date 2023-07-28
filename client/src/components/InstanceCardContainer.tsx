@@ -1,4 +1,3 @@
-import * as React from 'react';
 import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -8,14 +7,14 @@ import { Button, CardMedia } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { useCreateInstanceModalContext } from '@/contexts/CreateInstanceModal.Context';
 import { useWebTerminalContext } from '@/contexts/WebTerminal.Context';
+import React from 'react';
 
 const InstanceCardContainer = () => {
   const { user, loading } = useUserContext();
   const [instances, setInstances] = React.useState<Instance[]>([]);
   const [deletingInstance, setDeletingInstance] = React.useState<number | null>(null);
-  const theme = useTheme();
   const { submitSuccess, setSubmitSuccess } = useCreateInstanceModalContext();
-  const { ingressPath, setIngressPath, terminalOpen, setTerminalOpen } = useWebTerminalContext();
+  const { ingressPath, setIngressPath, setTerminalOpen } = useWebTerminalContext();
 
   const distroImages: { [key: string]: string } = {
     'ubuntu-ws': 'https://assets.ubuntu.com/v1/a7e3c509-Canonical%20Ubuntu.svg',
@@ -31,7 +30,7 @@ const InstanceCardContainer = () => {
       if (nextInstance != null) {
         setIngressPath(nextInstance.ingressPath);
       } else {
-          setTerminalOpen(false)
+        setTerminalOpen(false);
       }
     }
 
@@ -42,7 +41,7 @@ const InstanceCardContainer = () => {
           'Content-Type': 'application/json'
         }
       });
-  
+
       if (response.ok) {
         setInstances(instances.filter((instance: Instance) => instance.id !== instanceToDelete.id));
       }
@@ -90,7 +89,7 @@ const InstanceCardContainer = () => {
               flexDirection: 'column',
               justifyContent: 'center',
               alignItems: 'center',
-              opacity: deletingInstance === instance.id ? 0.5 : 1,
+              opacity: deletingInstance === instance.id ? 0.5 : 1
             }}>
             <CardMedia
               component="img"
@@ -103,8 +102,16 @@ const InstanceCardContainer = () => {
 
             <CardContent>
               <p>{instance.name}</p>
-              <Button onClick={() => deleteInstance(instance)} disabled={deletingInstance === instance.id}> Delete </Button>
-              <Button onClick={() => handleSetIngressPath(instance.ingressPath)} disabled={deletingInstance === instance.id}> Open </Button>
+              <Button onClick={() => deleteInstance(instance)} disabled={deletingInstance === instance.id}>
+                {' '}
+                Delete{' '}
+              </Button>
+              <Button
+                onClick={() => handleSetIngressPath(instance.ingressPath)}
+                disabled={deletingInstance === instance.id}>
+                {' '}
+                Open{' '}
+              </Button>
             </CardContent>
           </Card>
         </Grid>
