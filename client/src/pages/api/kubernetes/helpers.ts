@@ -68,7 +68,7 @@ export const getK8sNetworkingClient = async () => {
 };
 
 const sanitizeString = (str: string): string => {
-  return str.replace(/[^a-zA-Z0-9-]/g, "").toLowerCase();
+  return str.replace(/[^a-zA-Z0-9-]/g, '').toLowerCase();
 };
 
 export const generateNameSpace = (sid: string, timestamp: string): string => {

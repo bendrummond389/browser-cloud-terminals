@@ -14,7 +14,7 @@ const style = {
   bgcolor: 'background.paper',
   border: '2px solid #000',
   boxShadow: 24,
-  p: 4,
+  p: 4
 };
 
 export interface CreateInstanceRequestBody {
@@ -24,12 +24,13 @@ export interface CreateInstanceRequestBody {
 }
 
 const CreateInstanceModal = () => {
-  const { createInstanceModalOpen, setCreateInstanceModalOpen, submitSuccess, setSubmitSuccess } = useCreateInstanceModalContext();
-  const [selectedLinux, setSelectedLinux] = React.useState<string>('debian-ws'); 
-  const [instanceName, setInstanceName] = React.useState<string>(''); 
-  const [submitting, setSubmitting] = React.useState<boolean>(false)
+  const { createInstanceModalOpen, setCreateInstanceModalOpen, submitSuccess, setSubmitSuccess } =
+    useCreateInstanceModalContext();
+  const [selectedLinux, setSelectedLinux] = React.useState<string>('debian-ws');
+  const [instanceName, setInstanceName] = React.useState<string>('');
+  const [submitting, setSubmitting] = React.useState<boolean>(false);
 
-  const {user} = useUserContext()
+  const { user } = useUserContext();
 
   const handleClose = () => {
     setCreateInstanceModalOpen(false);
@@ -41,7 +42,7 @@ const CreateInstanceModal = () => {
     const createInstanceRequestBody: CreateInstanceRequestBody = {
       user,
       name: instanceName,
-      podImage: selectedLinux,
+      podImage: selectedLinux
     };
 
     const res = await fetch('/api/kubernetes/instances', {
@@ -65,7 +66,7 @@ const CreateInstanceModal = () => {
   };
 
   const handleSubmit = async () => {
-    setSubmitSuccess(false)
+    setSubmitSuccess(false);
     setSubmitting(true);
     try {
       const response = await createInstance();
@@ -87,16 +88,13 @@ const CreateInstanceModal = () => {
         open={createInstanceModalOpen}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
+        aria-describedby="modal-modal-description">
         <Box component="form" sx={style} noValidate autoComplete="off">
           <div style={{ marginBottom: '20px' }}>
             <Typography variant="h6" gutterBottom>
               Create New Instance
             </Typography>
-            <Typography variant="body1">
-            Note: name can only contain alphanumeric characters 
-            </Typography>
+            <Typography variant="body1">Note: name can only contain alphanumeric characters</Typography>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
             <TextField
@@ -110,14 +108,12 @@ const CreateInstanceModal = () => {
             <div style={{ display: 'flex', gap: '20px' }}>
               <Button
                 variant={selectedLinux === 'ubuntu-ws' ? 'contained' : 'outlined'}
-                onClick={() => handleLinuxButtonClick('ubuntu-ws')}
-              >
+                onClick={() => handleLinuxButtonClick('ubuntu-ws')}>
                 Ubuntu
               </Button>
               <Button
                 variant={selectedLinux === 'debian-ws' ? 'contained' : 'outlined'}
-                onClick={() => handleLinuxButtonClick('debian-ws')}
-              >
+                onClick={() => handleLinuxButtonClick('debian-ws')}>
                 Debian
               </Button>
             </div>
@@ -126,12 +122,11 @@ const CreateInstanceModal = () => {
             <Button variant="contained" color="primary" onClick={handleSubmit} disabled={submitting}>
               {submitting ? 'Creating Instance...' : 'Submit'}
             </Button>
-          </div>  
+          </div>
         </Box>
       </Modal>
     </div>
   );
 };
 
-
-export default CreateInstanceModal
+export default CreateInstanceModal;

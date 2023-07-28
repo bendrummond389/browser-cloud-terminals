@@ -11,7 +11,7 @@ const CreateInstanceModalContext = React.createContext<CreateInstanceModalContex
   createInstanceModalOpen: false,
   setCreateInstanceModalOpen: () => {},
   submitSuccess: false,
-  setSubmitSuccess: () => {},
+  setSubmitSuccess: () => {}
 });
 
 export function useCreateInstanceModalContext() {
@@ -23,7 +23,8 @@ const CreateInstanceModalProvider: React.FC<{ children: React.ReactNode }> = ({ 
   const [submitSuccess, setSubmitSuccess] = React.useState<boolean>(false);
 
   return (
-    <CreateInstanceModalContext.Provider value={{ createInstanceModalOpen, setCreateInstanceModalOpen, submitSuccess, setSubmitSuccess }}>
+    <CreateInstanceModalContext.Provider
+      value={{ createInstanceModalOpen, setCreateInstanceModalOpen, submitSuccess, setSubmitSuccess }}>
       {children}
     </CreateInstanceModalContext.Provider>
   );

@@ -4,6 +4,18 @@ import { CoreV1Api, NetworkingV1Api, V1Ingress, V1Service } from '@kubernetes/cl
 import { CreateInstanceRequestBody } from '@/components/DashboardPage';
 import { Instance, PrismaClient } from '@prisma/client';
 
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  if (req.method === 'GET') {
+    await getInstances(req, res);
+  } else if (req.method === 'POST') {
+    await createInstance(req, res);
+  } else if (req.method === 'DELETE') {
+    await deleteInstance(req, res);
+  } else {
+    res.status(405).json({ error: 'Method Not Allowed' });
+  }
+}
+
 const createInstance = async (req: NextApiRequest, res: NextApiResponse) => {
   const timestamp = Date.now().toString();
   const { user, name, podImage }: CreateInstanceRequestBody = req.body;
@@ -35,7 +47,7 @@ const createInstance = async (req: NextApiRequest, res: NextApiResponse) => {
   } catch (e) {
     deleteNamespace(namespace, k8sApi);
     console.error(e);
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ error: 'Internal server error occured while trying to create Instance' });
   }
 };
 
@@ -224,15 +236,3 @@ const deleteInstance = async (req: NextApiRequest, res: NextApiResponse) => {
     }
   }
 };
-
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method === 'GET') {
-    await getInstances(req, res);
-  } else if (req.method === 'POST') {
-    await createInstance(req, res);
-  } else if (req.method === 'DELETE') {
-    await deleteInstance(req, res);
-  } else {
-    res.status(405).json({ error: 'Method Not Allowed' });
-  }
-}
