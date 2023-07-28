@@ -1,5 +1,4 @@
-import { User } from '@prisma/client';
-import React, { createContext, useContext, useState } from 'react';
+import React from 'react';
 
 interface CreateInstanceModalContextProps {
   createInstanceModalOpen: boolean;
@@ -8,7 +7,7 @@ interface CreateInstanceModalContextProps {
   setSubmitSuccess: (value: boolean) => void;
 }
 
-const CreateInstanceModalContext = createContext<CreateInstanceModalContextProps>({
+const CreateInstanceModalContext = React.createContext<CreateInstanceModalContextProps>({
   createInstanceModalOpen: false,
   setCreateInstanceModalOpen: () => {},
   submitSuccess: false,
@@ -16,12 +15,12 @@ const CreateInstanceModalContext = createContext<CreateInstanceModalContextProps
 });
 
 export function useCreateInstanceModalContext() {
-  return useContext(CreateInstanceModalContext);
+  return React.useContext(CreateInstanceModalContext);
 }
 
 const CreateInstanceModalProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [createInstanceModalOpen, setCreateInstanceModalOpen] = useState<boolean>(false);
-  const [submitSuccess, setSubmitSuccess] = useState<boolean>(false);
+  const [createInstanceModalOpen, setCreateInstanceModalOpen] = React.useState<boolean>(false);
+  const [submitSuccess, setSubmitSuccess] = React.useState<boolean>(false);
 
   return (
     <CreateInstanceModalContext.Provider value={{ createInstanceModalOpen, setCreateInstanceModalOpen, submitSuccess, setSubmitSuccess }}>

@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React from 'react';
 
 interface WebTerminalProps {
   ingressPath: string;
@@ -7,20 +7,20 @@ interface WebTerminalProps {
   setTerminalOpen: (value: boolean) => void;
 }
 
-const WebTerminalContext = createContext<WebTerminalProps>({
-  ingressPath: "",
+const WebTerminalContext = React.createContext<WebTerminalProps>({
+  ingressPath: '',
   setIngressPath: () => {},
   terminalOpen: false,
   setTerminalOpen: () => {}
 });
 
 export function useWebTerminalContext() {
-  return useContext(WebTerminalContext);
+  return React.useContext(WebTerminalContext);
 }
 
 const WebTerminalProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [ingressPath, setIngressPath] = useState<string>("");
-  const [terminalOpen, setTerminalOpen] = useState<boolean>(false);
+  const [ingressPath, setIngressPath] = React.useState<string>('');
+  const [terminalOpen, setTerminalOpen] = React.useState<boolean>(false);
 
   return (
     <WebTerminalContext.Provider value={{ ingressPath, setIngressPath, terminalOpen, setTerminalOpen }}>

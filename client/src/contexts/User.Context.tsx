@@ -1,7 +1,7 @@
 import { User } from '@prisma/client';
-import { createContext, useContext, useEffect, useState } from 'react';
+import React from 'react';
 
-const UserContext = createContext<UserContextType | null>(null);
+const UserContext = React.createContext<UserContextType | null>(null);
 
 type UserContextType = {
   user: User | null;
@@ -9,7 +9,7 @@ type UserContextType = {
 };
 
 export function useUserContext() {
-  const context = useContext(UserContext);
+  const context = React.useContext(UserContext);
   if (!context) {
     throw new Error('useUserContext must be used within a UserContextProvider');
   }
@@ -21,10 +21,10 @@ interface UserContextProviderProps {
 }
 
 export function UserProvider({ children }: UserContextProviderProps) {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [user, setUser] = React.useState(null);
+  const [loading, setLoading] = React.useState(true);
 
-  useEffect(() => {
+  React.useEffect(() => {
     fetch('/api/users/user')
       .then(response => response.json())
       .then(data => {
