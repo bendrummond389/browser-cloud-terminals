@@ -4,10 +4,12 @@ Browser Cloud Terminals is a web application that demonstrates how to provide us
 
 Please note that this application requires a specific infrastructure setup, including a Kubernetes cluster, Postgres VM running on Azure, and an Auth0 account for authentication. Additionally, SSL certificates and a domain name are required to enable secure connections via Kubernetes Ingress.
 
-## Features
-- Interactive bash shell accessible via any modern web browser
-- Real-time, WebSocket-based communication for an improved user experience
-- Designed for seamless integration with Kubernetes
+## Built With
+- NextJs
+- MaterialUI
+- Kubernetes
+- Azure
+- PostgreSQL
 
 ## Demo
 Watch a demo of the application in action: [Video](https://youtu.be/DIr_peoYBLA)
@@ -16,7 +18,7 @@ Watch a demo of the application in action: [Video](https://youtu.be/DIr_peoYBLA)
 This project is intended for educational purposes and serves as a guide for building web terminal applications. It is not a standalone application that can be easily cloned and used without the necessary infrastructure and configurations.
 
 ## How it Works
-The Browser Cloud Terminals application leverages Next.js to automate the creation, access, and deletion of Kubernetes pods, services, and ingresses. Each pod runs a custom Docker image that automatically starts a WebSocket server on startup, allowing users to access the pods via the web-based terminal in the dashboard. The WebSocket connections are managed by the Nginx Ingress controller, which assigns a unique ingress path based on the user session ID.
+The Browser Cloud Terminals application uses the Kubernetes API to automate the creation, access, and deletion of Kubernetes pods, services, and ingresses. Each pod runs a custom Docker image with a WebSocket server on startup, allowing users to access the pods via the web-based terminal in the dashboard. The WebSocket connections are managed by the Nginx Ingress controller, which assigns a unique ingress path based on the user session ID.
 
 ## Requirements
 - A Kubernetes cluster
